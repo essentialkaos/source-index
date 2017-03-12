@@ -18,7 +18,10 @@
       h1 { border-bottom: 1px #DDD solid; padding-bottom: 8px }
       h2 { padding-top: 16px }
       div { position: relative }
-      div a { text-decoration: none }
+      a { text-decoration: none }
+      h2>a.anchor { color: #666; }
+      a.anchor { border: none }
+      a.anchor:hover { border-bottom: 1px dashed #666 }
       div.content { display: block; margin-left: auto; margin-right: auto; padding-top: 32px; width: 600px }
       div.release { background-color: #FFF; border-radius: 2px; margin: 0 0 4px -4px; padding: 4px 0 4px 4px; }
       div.release:hover { background-color: #F7F7F7 }
@@ -35,7 +38,7 @@
       table { border-spacing: 0 }
       td.version { width: 80px }
       p.footer { color: #999; font-size: 80%; padding: 64px 0 40px; text-align: center }
-      p.footer a { color: #666 }
+      p.footer a { color: #666; border-bottom: 1px solid #666 }
     </style>
   </head>
   <body>
@@ -43,7 +46,7 @@
       <h1>Source's Index</h1>
       {{ range .Projects }}
         <div>
-          <h2>{{ .Name }}</h2>
+          <h2><a class="anchor" id="{{ .Name }}" href="#{{ .Name }}">{{ .Name }}</a></h2>
            {{ range .Releases }}
               <div data-date="{{ .Date }}" class="release">
                 <table><tr>
