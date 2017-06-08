@@ -15,30 +15,30 @@ import (
 	"strings"
 	"text/template"
 
-	"pkg.re/essentialkaos/ek.v8/arg"
-	"pkg.re/essentialkaos/ek.v8/env"
-	"pkg.re/essentialkaos/ek.v8/fmtc"
-	"pkg.re/essentialkaos/ek.v8/fsutil"
-	"pkg.re/essentialkaos/ek.v8/sortutil"
-	"pkg.re/essentialkaos/ek.v8/timeutil"
-	"pkg.re/essentialkaos/ek.v8/usage"
-	"pkg.re/essentialkaos/ek.v8/usage/update"
+	"pkg.re/essentialkaos/ek.v9/env"
+	"pkg.re/essentialkaos/ek.v9/fmtc"
+	"pkg.re/essentialkaos/ek.v9/fsutil"
+	"pkg.re/essentialkaos/ek.v9/options"
+	"pkg.re/essentialkaos/ek.v9/sortutil"
+	"pkg.re/essentialkaos/ek.v9/timeutil"
+	"pkg.re/essentialkaos/ek.v9/usage"
+	"pkg.re/essentialkaos/ek.v9/usage/update"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 const (
 	APP  = "SourceIndex"
-	VER  = "0.1.0"
+	VER  = "0.2.0"
 	DESC = "Utility for generating index for source archives"
 )
 
 const (
-	ARG_OUTPUT   = "o:output"
-	ARG_TEMPLATE = "t:template"
-	ARG_NO_COLOR = "nc:no-color"
-	ARG_HELP     = "h:help"
-	ARG_VER      = "v:version"
+	OPT_OUTPUT   = "o:output"
+	OPT_TEMPLATE = "t:template"
+	OPT_NO_COLOR = "nc:no-color"
+	OPT_HELP     = "h:help"
+	OPT_VER      = "v:version"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -92,18 +92,18 @@ func (s SourceSlice) Less(i, j int) bool {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-var argMap = arg.Map{
-	ARG_OUTPUT:   {Value: "index.html"},
-	ARG_TEMPLATE: {Value: "default.tpl"},
-	ARG_NO_COLOR: {Type: arg.BOOL},
-	ARG_HELP:     {Type: arg.BOOL, Alias: "u:usage"},
-	ARG_VER:      {Type: arg.BOOL, Alias: "ver"},
+var optMap = options.Map{
+	OPT_OUTPUT:   {Value: "index.html"},
+	OPT_TEMPLATE: {Value: "default.tpl"},
+	OPT_NO_COLOR: {Type: options.BOOL},
+	OPT_HELP:     {Type: options.BOOL, Alias: "u:usage"},
+	OPT_VER:      {Type: options.BOOL, Alias: "ver"},
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 func main() {
-	args, errs := arg.Parse(argMap)
+	args, errs := options.Parse(optMap)
 
 	if len(errs) != 0 {
 		for _, err := range errs {
@@ -113,16 +113,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	if arg.GetB(ARG_NO_COLOR) {
+	if options.GetB(OPT_NO_COLOR) {
 		fmtc.DisableColors = true
 	}
 
-	if arg.GetB(ARG_VER) {
+	if options.GetB(OPT_VER) {
 		showAbout()
 		return
 	}
 
-	if arg.GetB(ARG_HELP) || len(args) == 0 {
+	if options.GetB(OPT_HELP) || len(args) == 0 {
 		showUsage()
 		return
 	}
@@ -150,7 +150,7 @@ func process(dir string) {
 
 	fmtc.Printf(
 		"{g}Index for %d projects and %d releases successfully generated as {g*}%s{!}\n",
-		projects, releases, arg.GetS(ARG_OUTPUT),
+		projects, releases, options.GetS(OPT_OUTPUT),
 	)
 }
 
@@ -315,7 +315,7 @@ func releaseMapToSlice(releases map[string]*Release) []*Release {
 // export render template with inforamtion from index and save as file
 func export(index *Index) error {
 	templateFile := getTemplateFile()
-	outputFile := arg.GetS(ARG_OUTPUT)
+	outputFile := options.GetS(OPT_OUTPUT)
 
 	if templateFile == "" {
 		return fmt.Errorf("Can't use given template")
@@ -351,7 +351,7 @@ func export(index *Index) error {
 
 // getTemplateFile return path to template file
 func getTemplateFile() string {
-	template := arg.GetS(ARG_TEMPLATE)
+	template := options.GetS(OPT_TEMPLATE)
 
 	if fsutil.CheckPerms("FR", template) {
 		return template
@@ -402,11 +402,11 @@ func (i *Index) Stats() (int, int) {
 func showUsage() {
 	info := usage.NewInfo("", "dir")
 
-	info.AddOption(ARG_OUTPUT, "Output file {s-}(index.html by default){!}", "file")
-	info.AddOption(ARG_TEMPLATE, "Template {s-}(template.tpl by default){!}", "file")
-	info.AddOption(ARG_NO_COLOR, "Disable colors in output")
-	info.AddOption(ARG_HELP, "Show this help message")
-	info.AddOption(ARG_VER, "Show version")
+	info.AddOption(OPT_OUTPUT, "Output file {s-}(index.html by default){!}", "file")
+	info.AddOption(OPT_TEMPLATE, "Template {s-}(template.tpl by default){!}", "file")
+	info.AddOption(OPT_NO_COLOR, "Disable colors in output")
+	info.AddOption(OPT_HELP, "Show this help message")
+	info.AddOption(OPT_VER, "Show version")
 
 	info.Render()
 }
