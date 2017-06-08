@@ -92,7 +92,7 @@ func (s SourceSlice) Less(i, j int) bool {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-var argMap = options.Map{
+var optMap = options.Map{
 	OPT_OUTPUT:   {Value: "index.html"},
 	OPT_TEMPLATE: {Value: "default.tpl"},
 	OPT_NO_COLOR: {Type: options.BOOL},
@@ -103,7 +103,7 @@ var argMap = options.Map{
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 func main() {
-	args, errs := options.Parse(argMap)
+	args, errs := options.Parse(optMap)
 
 	if len(errs) != 0 {
 		for _, err := range errs {
