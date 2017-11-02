@@ -1,4 +1,4 @@
-# SourceIndex [![Build Status](https://travis-ci.org/essentialkaos/source-index.svg?branch=master)](https://travis-ci.org/essentialkaos/source-index) [![Go Report Card](https://goreportcard.com/badge/github.com/essentialkaos/source-index)](https://goreportcard.com/report/github.com/essentialkaos/source-index) [![License](https://gh.kaos.io/ekol.svg)](https://essentialkaos.com/ekol)
+# SourceIndex [![Build Status](https://travis-ci.org/essentialkaos/source-index.svg?branch=master)](https://travis-ci.org/essentialkaos/source-index) [![Go Report Card](https://goreportcard.com/badge/github.com/essentialkaos/source-index)](https://goreportcard.com/report/github.com/essentialkaos/source-index) [![codebeat badge](https://codebeat.co/badges/dec317bf-9da2-4d56-ab9b-a31dde545285)](https://codebeat.co/projects/github-com-essentialkaos-source-index-master) [![License](https://gh.kaos.io/ekol.svg)](https://essentialkaos.com/ekol)
 
 SourceIndex is a simple utility for generating index page for source code archives. Currently, we use SourceIndex for generating an index for [EK Sources Repository](https://source.kaos.io).
 
@@ -16,7 +16,7 @@ Before the initial install allows git to use redirects for [pkg.re](https://gith
 git config --global http.https://pkg.re.followRedirects true
 ```
 
-To build the SourceIndex from scratch, make sure you have a working Go 1.6+ workspace ([instructions](https://golang.org/doc/install)), then:
+To build the SourceIndex from scratch, make sure you have a working Go 1.7+ workspace ([instructions](https://golang.org/doc/install)), then:
 
 ```
 go get github.com/essentialkaos/source-index
