@@ -5,10 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="en">
 
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAABrklEQVR4AZXUv8vTQBzH8fsP8ifkT8hydhILgiIdLGQQB6VWcHLo5CJCRVAEkaAggihBUAShBnyGZ3qog1NBDsTFgnQRcVCCFKyI8LY0x3H5cWnu9ZkO7j5cLvAVTQgYkjC3kjAkEF0QkpLTJCclFG0ISNkndd6ECEUXiqj56jld5YT1yyt8qMqHMMfX3D4+peIP3/hFO6bm6ylJuUwPiWTAXZYUPjHY5RYY+iVIMX4wRlbyAoAPenUNS1o8n+UqsiFvXAUQCEYYC72pxwNmPCbW6zPugpEgw5jpTY8orLnOZJfcVZAJFMaR3hRzwJoSV4ESWJZIkx5j7vGOv+0FCEruIyvp89SnAJ5xolYy9SmADYfc4UKp4n1LgcLhJ2+5qI+9bHnEDOM8p7aJOUTjlfmx7t84wbiB1LnN620eclKvD1wFE0GI8YXjyIacA1dBWJkFC87Wjsd8dhTomUAfy4YnXNKbj3GF5/wD4COnd7mJpS8KZFT85ivf2dAqsyfiCl8rgvJIz/GR10Y7kcctVvq4c7R7jPRqRcI+ieu4RkSGS0YkuiAkQWFTJISiwX88Jdgx2eFFKwAAAABJRU5ErkJggg==" />
 
-    <title>Index</title>
+    <title>Source's Index</title>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 
@@ -29,7 +28,7 @@
       span.version { font-size: 1.3em }
       span.date { color: #999; font-size: .8em }
       span.latest { font-weight: 700 }
-      span.badge { background-color: #BBB; border-radius: 4px; color: #FFF; font-size: 60%; font-weight: 700; padding: 2px 4px; transition: background-color .5s ease-out; vertical-align: middle }
+      span.badge { background-color: #BBB; border-radius: 4px; color: #FFF; font-size: 60%; font-weight: 700; padding: 2px 4px; transition: background-color .25s ease-out; vertical-align: middle }
       span.format0:hover { background-color: #DD7A58 }
       span.format1:hover { background-color: #DDC458 }
       span.format2:hover { background-color: #B0DD58 }
