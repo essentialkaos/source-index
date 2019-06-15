@@ -2,7 +2,7 @@ package main
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                     Copyright (c) 2009-2018 ESSENTIAL KAOS                         //
+//                     Copyright (c) 2009-2019 ESSENTIAL KAOS                         //
 //        Essential Kaos Open Source License <https://essentialkaos.com/ekol>         //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -15,21 +15,24 @@ import (
 	"strings"
 	"text/template"
 
-	"pkg.re/essentialkaos/ek.v9/env"
-	"pkg.re/essentialkaos/ek.v9/fmtc"
-	"pkg.re/essentialkaos/ek.v9/fsutil"
-	"pkg.re/essentialkaos/ek.v9/options"
-	"pkg.re/essentialkaos/ek.v9/sortutil"
-	"pkg.re/essentialkaos/ek.v9/timeutil"
-	"pkg.re/essentialkaos/ek.v9/usage"
-	"pkg.re/essentialkaos/ek.v9/usage/update"
+	"pkg.re/essentialkaos/ek.v10/env"
+	"pkg.re/essentialkaos/ek.v10/fmtc"
+	"pkg.re/essentialkaos/ek.v10/fsutil"
+	"pkg.re/essentialkaos/ek.v10/options"
+	"pkg.re/essentialkaos/ek.v10/sortutil"
+	"pkg.re/essentialkaos/ek.v10/timeutil"
+	"pkg.re/essentialkaos/ek.v10/usage"
+	"pkg.re/essentialkaos/ek.v10/usage/completion/bash"
+	"pkg.re/essentialkaos/ek.v10/usage/completion/fish"
+	"pkg.re/essentialkaos/ek.v10/usage/completion/zsh"
+	"pkg.re/essentialkaos/ek.v10/usage/update"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 const (
 	APP  = "SourceIndex"
-	VER  = "0.2.0"
+	VER  = "0.3.0"
 	DESC = "Utility for generating index for source archives"
 )
 
@@ -39,6 +42,8 @@ const (
 	OPT_NO_COLOR = "nc:no-color"
 	OPT_HELP     = "h:help"
 	OPT_VER      = "v:version"
+
+	OPT_COMPLETION = "completion"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -98,6 +103,8 @@ var optMap = options.Map{
 	OPT_NO_COLOR: {Type: options.BOOL},
 	OPT_HELP:     {Type: options.BOOL, Alias: "u:usage"},
 	OPT_VER:      {Type: options.BOOL, Alias: "ver"},
+
+	OPT_COMPLETION: {},
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -111,6 +118,10 @@ func main() {
 		}
 
 		os.Exit(1)
+	}
+
+	if options.Has(OPT_COMPLETION) {
+		genCompletion()
 	}
 
 	if options.GetB(OPT_NO_COLOR) {
@@ -130,7 +141,7 @@ func main() {
 	process(args[0])
 }
 
-// process start processing
+// process starts processing
 func process(dir string) {
 	err := checkDir(dir)
 
@@ -154,7 +165,7 @@ func process(dir string) {
 	)
 }
 
-// checkDir check directory
+// checkDir checks directory
 func checkDir(dir string) error {
 	if !fsutil.IsExist(dir) {
 		return fmt.Errorf("Directory %s doesn't exist", dir)
@@ -175,7 +186,7 @@ func checkDir(dir string) error {
 	return nil
 }
 
-// buildIndex build index with info about all projects in directory
+// buildIndex builds index with info about all projects in directory
 func buildIndex(dir string) *Index {
 	var index = &Index{}
 
@@ -203,7 +214,7 @@ func buildIndex(dir string) *Index {
 	return index
 }
 
-// getReleases read given directory and return slice with info about releases
+// getReleases reads given directory and return slice with info about releases
 func getReleases(project, dir string) []*Release {
 	var releases map[string]*Release
 
@@ -244,7 +255,7 @@ func getReleases(project, dir string) []*Release {
 	return releaseMapToSlice(releases)
 }
 
-// parseSourceName parse source name and return version and source info
+// parseSourceName parses source name and return version and source info
 func parseSourceName(project, name string) (string, *Source) {
 	verIndex := strings.LastIndex(name, "-")
 
@@ -296,7 +307,7 @@ func parseSourceName(project, name string) (string, *Source) {
 	return version, &Source{File: project + "/" + name, Ext: ext}
 }
 
-// releaseMapToSlice convert map with releases to sorted slice
+// releaseMapToSlice converts map with releases to sorted slice
 func releaseMapToSlice(releases map[string]*Release) []*Release {
 	var result []*Release
 
@@ -312,7 +323,7 @@ func releaseMapToSlice(releases map[string]*Release) []*Release {
 	return result
 }
 
-// export render template with inforamtion from index and save as file
+// export renders template with inforamtion from index and save as file
 func export(index *Index) error {
 	templateFile := getTemplateFile()
 	outputFile := options.GetS(OPT_OUTPUT)
@@ -349,7 +360,7 @@ func export(index *Index) error {
 	return t.Execute(fd, index)
 }
 
-// getTemplateFile return path to template file
+// getTemplateFile returns path to template file
 func getTemplateFile() string {
 	template := options.GetS(OPT_TEMPLATE)
 
@@ -378,7 +389,7 @@ func printWarn(f string, a ...interface{}) {
 	fmtc.Fprintf(os.Stderr, "{y}"+f+"{!}\n", a...)
 }
 
-// printErrorAndExit print error mesage and exit with exit code 1
+// printErrorAndExit prints error mesage and exit with exit code 1
 func printErrorAndExit(f string, a ...interface{}) {
 	printError(f, a...)
 	os.Exit(1)
@@ -386,7 +397,7 @@ func printErrorAndExit(f string, a ...interface{}) {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// Stats return number of projects and releases in index
+// Stats returns number of projects and releases in index
 func (i *Index) Stats() (int, int) {
 	var releases int
 
@@ -399,7 +410,13 @@ func (i *Index) Stats() (int, int) {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
+// showUsage prints usage info
 func showUsage() {
+	genUsage().Render()
+}
+
+// genUsage
+func genUsage() *usage.Info {
 	info := usage.NewInfo("", "dir")
 
 	info.AddOption(OPT_OUTPUT, "Output file {s-}(index.html by default){!}", "file")
@@ -408,9 +425,28 @@ func showUsage() {
 	info.AddOption(OPT_HELP, "Show this help message")
 	info.AddOption(OPT_VER, "Show version")
 
-	info.Render()
+	return info
 }
 
+// genCompletion generates completion for different shells
+func genCompletion() {
+	info := genUsage()
+
+	switch options.GetS(OPT_COMPLETION) {
+	case "bash":
+		fmt.Printf(bash.Generate(info, "source-index"))
+	case "fish":
+		fmt.Printf(fish.Generate(info, "source-index"))
+	case "zsh":
+		fmt.Printf(zsh.Generate(info, optMap, "source-index"))
+	default:
+		os.Exit(1)
+	}
+
+	os.Exit(0)
+}
+
+// showAbout prints basic info about app
 func showAbout() {
 	about := &usage.About{
 		App:           APP,

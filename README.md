@@ -19,7 +19,7 @@ Before the initial install allows git to use redirects for [pkg.re](https://gith
 git config --global http.https://pkg.re.followRedirects true
 ```
 
-To build the SourceIndex from scratch, make sure you have a working Go 1.8+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+To build the SourceIndex from scratch, make sure you have a working Go 1.10+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ```
 go get github.com/essentialkaos/source-index
@@ -29,6 +29,27 @@ If you want update SourceIndex to latest stable release, do:
 
 ```
 go get -u github.com/essentialkaos/source-index
+```
+
+### Command-line completion
+
+You can generate completion for `bash`, `zsh` or `fish` shell.
+
+Bash:
+```
+[sudo] source-index --completion=bash 1> /etc/bash_completion.d/source-index
+```
+
+
+ZSH:
+```
+[sudo] source-index --completion=zsh 1> /usr/share/zsh/site-functions/source-index
+```
+
+
+Fish:
+```
+[sudo] source-index --completion=fish 1> /usr/share/fish/vendor_completions.d/source-index.fish
 ```
 
 ### Usage
