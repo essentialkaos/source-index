@@ -1,13 +1,15 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/source-index.svg"/></a></p>
 
-<p align="center"><a href="#installation">Installation</a> • <a href="#usage">Usage</a> • <a href="#build-status">Build Status</a> • <a href="#contributing">Contributing</a> • <a href="#license">License</a></p>
-
 <p align="center">
   <a href="https://travis-ci.com/essentialkaos/source-index"><img src="https://travis-ci.com/essentialkaos/source-index.svg"></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/source-index"><img src="https://goreportcard.com/badge/github.com/essentialkaos/source-index"></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-source-index-master"><img alt="codebeat badge" src="https://codebeat.co/badges/dec317bf-9da2-4d56-ab9b-a31dde545285" /></a>
   <a href="https://essentialkaos.com/ekol"><img src="https://gh.kaos.st/ekol.svg"></a>
 </p>
+
+<p align="center"><a href="#installation">Installation</a> • <a href="#usage">Usage</a> • <a href="#build-status">Build Status</a> • <a href="#contributing">Contributing</a> • <a href="#license">License</a></p>
+
+</br>
 
 SourceIndex is a simple utility for generating index page for source code archives. Currently, we use SourceIndex for generating an index for [EK Sources Repository](https://source.kaos.st).
 
@@ -19,7 +21,7 @@ Before the initial install allows git to use redirects for [pkg.re](https://gith
 git config --global http.https://pkg.re.followRedirects true
 ```
 
-To build the SourceIndex from scratch, make sure you have a working Go 1.10+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+To build the SourceIndex from scratch, make sure you have a working Go 1.12+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ```
 go get github.com/essentialkaos/source-index
@@ -36,20 +38,20 @@ go get -u github.com/essentialkaos/source-index
 You can generate completion for `bash`, `zsh` or `fish` shell.
 
 Bash:
-```
-[sudo] source-index --completion=bash 1> /etc/bash_completion.d/source-index
+```bash
+sudo source-index --completion=bash 1> /etc/bash_completion.d/source-index
 ```
 
 
 ZSH:
-```
-[sudo] source-index --completion=zsh 1> /usr/share/zsh/site-functions/source-index
+```bash
+sudo source-index --completion=zsh 1> /usr/share/zsh/site-functions/source-index
 ```
 
 
 Fish:
-```
-[sudo] source-index --completion=fish 1> /usr/share/fish/vendor_completions.d/source-index.fish
+```bash
+sudo source-index --completion=fish 1> /usr/share/fish/vendor_completions.d/source-index.fish
 ```
 
 ### Usage
