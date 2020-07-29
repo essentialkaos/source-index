@@ -2,6 +2,7 @@
 
 <p align="center">
   <a href="https://travis-ci.com/essentialkaos/source-index"><img src="https://travis-ci.com/essentialkaos/source-index.svg"></a>
+  <a href="https://github.com/essentialkaos/source-index/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/source-index/workflows/CodeQL/badge.svg" /></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/source-index"><img src="https://goreportcard.com/badge/github.com/essentialkaos/source-index"></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-source-index-master"><img alt="codebeat badge" src="https://codebeat.co/badges/dec317bf-9da2-4d56-ab9b-a31dde545285" /></a>
   <a href="https://essentialkaos.com/ekol"><img src="https://gh.kaos.st/ekol.svg"></a>
