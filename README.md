@@ -1,7 +1,7 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/source-index.svg"/></a></p>
 
 <p align="center">
-  <a href="https://travis-ci.com/essentialkaos/source-index"><img src="https://travis-ci.com/essentialkaos/source-index.svg"></a>
+  <a href="https://github.com/essentialkaos/source-index/actions"><img src="https://github.com/essentialkaos/source-index/workflows/CI/badge.svg" alt="GitHub Actions Status" /></a>
   <a href="https://github.com/essentialkaos/source-index/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/source-index/workflows/CodeQL/badge.svg" /></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/source-index"><img src="https://goreportcard.com/badge/github.com/essentialkaos/source-index"></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-source-index-master"><img alt="codebeat badge" src="https://codebeat.co/badges/dec317bf-9da2-4d56-ab9b-a31dde545285" /></a>
@@ -16,13 +16,7 @@ SourceIndex is a simple utility for generating index page for source code archiv
 
 ### Installation
 
-Before the initial install allows git to use redirects for [pkg.re](https://github.com/essentialkaos/pkgre) service (_reason why you should do this described [here](https://github.com/essentialkaos/pkgre#git-support)_):
-
-```
-git config --global http.https://pkg.re.followRedirects true
-```
-
-To build the SourceIndex from scratch, make sure you have a working Go 1.12+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+To build the SourceIndex from scratch, make sure you have a working Go 1.14+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ```
 go get github.com/essentialkaos/source-index
@@ -74,8 +68,8 @@ Options
 
 | Branch | Status |
 |------------|--------|
-| `master` | [![Build Status](https://travis-ci.com/essentialkaos/source-index.svg?branch=master)](https://travis-ci.com/essentialkaos/source-index) |
-| `develop` | [![Build Status](https://travis-ci.com/essentialkaos/source-index.svg?branch=develop)](https://travis-ci.com/essentialkaos/source-index) |
+| `master` | [![CI](https://github.com/essentialkaos/source-index/workflows/CI/badge.svg?branch=master)](https://github.com/essentialkaos/source-index/actions) |
+| `develop` | [![CI](https://github.com/essentialkaos/source-index/workflows/CI/badge.svg?branch=develop)](https://github.com/essentialkaos/source-index/actions) |
 
 ### Contributing
 
