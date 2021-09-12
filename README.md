@@ -1,10 +1,10 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/source-index.svg"/></a></p>
 
 <p align="center">
-  <a href="https://github.com/essentialkaos/source-index/actions"><img src="https://github.com/essentialkaos/source-index/workflows/CI/badge.svg" alt="GitHub Actions Status" /></a>
-  <a href="https://github.com/essentialkaos/source-index/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/source-index/workflows/CodeQL/badge.svg" /></a>
-  <a href="https://goreportcard.com/report/github.com/essentialkaos/source-index"><img src="https://goreportcard.com/badge/github.com/essentialkaos/source-index"></a>
-  <a href="https://codebeat.co/projects/github-com-essentialkaos-source-index-master"><img alt="codebeat badge" src="https://codebeat.co/badges/dec317bf-9da2-4d56-ab9b-a31dde545285" /></a>
+  <a href="https://kaos.sh/w/source-index/ci"><img src="https://kaos.sh/w/source-index/ci.svg" alt="GitHub Actions CI Status" /></a>
+  <a href="https://kaos.sh/r/source-index"><img src="https://kaos.sh/r/source-index.svg" alt="GoReportCard" /></a>
+  <a href="https://kaos.sh/b/source-index"><img src="https://kaos.sh/b/dec317bf-9da2-4d56-ab9b-a31dde545285.svg" alt="codebeat badge" /></a>
+  <a href="https://kaos.sh/w/source-index/codeql"><img src="https://kaos.sh/w/source-index/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
   <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
 </p>
 
@@ -67,9 +67,9 @@ Options
 ### Build Status
 
 | Branch | Status |
-|------------|--------|
-| `master` | [![CI](https://github.com/essentialkaos/source-index/workflows/CI/badge.svg?branch=master)](https://github.com/essentialkaos/source-index/actions) |
-| `develop` | [![CI](https://github.com/essentialkaos/source-index/workflows/CI/badge.svg?branch=develop)](https://github.com/essentialkaos/source-index/actions) |
+|--------|--------|
+| `master` | [![CI](https://kaos.sh/w/source-index/ci.svg?branch=master)](https://kaos.sh/w/source-index/ci?query=branch:master) |
+| `develop` | [![CI](https://kaos.sh/w/source-index/ci.svg?branch=master)](https://kaos.sh/w/source-index/ci?query=branch:develop) |
 
 ### Contributing
 
