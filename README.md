@@ -16,16 +16,10 @@ SourceIndex is a simple utility for generating index page for source code archiv
 
 ### Installation
 
-To build the SourceIndex from scratch, make sure you have a working Go 1.16+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+To build the SourceIndex from scratch, make sure you have a working Go 1.17+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ```
 go get github.com/essentialkaos/source-index
-```
-
-If you want update SourceIndex to latest stable release, do:
-
-```
-go get -u github.com/essentialkaos/source-index
 ```
 
 ### Command-line completion
