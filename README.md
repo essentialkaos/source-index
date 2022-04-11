@@ -12,14 +12,14 @@
 
 </br>
 
-SourceIndex is a simple utility for generating index page for source code archives. Currently, we use SourceIndex for generating an index for [EK Sources Repository](https://source.kaos.st).
+SourceIndex is a simple utility for generating index page for source code archives.
 
 ### Installation
 
 To build the SourceIndex from scratch, make sure you have a working Go 1.17+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ```
-go get github.com/essentialkaos/source-index
+go install github.com/essentialkaos/source-index
 ```
 
 ### Command-line completion
