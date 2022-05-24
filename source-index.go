@@ -32,7 +32,7 @@ import (
 
 const (
 	APP  = "SourceIndex"
-	VER  = "0.3.2"
+	VER  = "0.3.3"
 	DESC = "Utility for generating index for source archives"
 )
 
@@ -138,7 +138,7 @@ func main() {
 		return
 	}
 
-	process(args[0])
+	process(args.Get(0).Clean().String())
 }
 
 // process starts processing
