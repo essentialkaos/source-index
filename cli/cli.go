@@ -2,7 +2,7 @@ package app
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2022 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2023 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -30,7 +30,7 @@ import (
 	"github.com/essentialkaos/ek/v12/usage/man"
 	"github.com/essentialkaos/ek/v12/usage/update"
 
-	"github.com/essentialkaos/source-index/support"
+	"github.com/essentialkaos/source-index/cli/support"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -48,9 +48,9 @@ const (
 	OPT_HELP     = "h:help"
 	OPT_VER      = "v:version"
 
-	OPT_VERB_VER     = "vv:verbose-version"
 	OPT_COMPLETION   = "completion"
 	OPT_GENERATE_MAN = "generate-man"
+	OPT_VERB_VER     = "vv:verbose-version"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -111,8 +111,8 @@ var optMap = options.Map{
 	OPT_OUTPUT:   {Value: "index.html"},
 	OPT_TEMPLATE: {},
 	OPT_NO_COLOR: {Type: options.BOOL},
-	OPT_HELP:     {Type: options.BOOL, Alias: "u:usage"},
-	OPT_VER:      {Type: options.BOOL, Alias: "ver"},
+	OPT_HELP:     {Type: options.BOOL},
+	OPT_VER:      {Type: options.BOOL},
 
 	OPT_VERB_VER:     {Type: options.BOOL},
 	OPT_COMPLETION:   {},
@@ -122,13 +122,12 @@ var optMap = options.Map{
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 func Init(gitRev string, gomod []byte) {
+	preConfigureUI()
+
 	args, errs := options.Parse(optMap)
 
 	if len(errs) != 0 {
-		for _, err := range errs {
-			printError(err.Error())
-		}
-
+		printError(errs[0].Error())
 		os.Exit(1)
 	}
 
@@ -136,31 +135,56 @@ func Init(gitRev string, gomod []byte) {
 
 	switch {
 	case options.Has(OPT_COMPLETION):
-		os.Exit(genCompletion())
+		os.Exit(printCompletion())
 	case options.Has(OPT_GENERATE_MAN):
-		os.Exit(genMan())
+		printMan()
+		os.Exit(0)
 	case options.GetB(OPT_VER):
-		showAbout(gitRev)
-		return
+		genAbout(gitRev).Print()
+		os.Exit(0)
 	case options.GetB(OPT_VERB_VER):
-		showVerboseAbout(gitRev, gomod)
-		return
+		support.Print(APP, VER, gitRev, gomod)
+		os.Exit(0)
 	case options.GetB(OPT_HELP) || len(args) == 0:
-		showUsage()
-		return
+		genUsage().Print()
+		os.Exit(0)
 	}
 
 	process(args.Get(0).Clean().String())
+}
+
+// preConfigureUI preconfigures UI based on information about user terminal
+func preConfigureUI() {
+	term := os.Getenv("TERM")
+
+	fmtc.DisableColors = true
+
+	if term != "" {
+		switch {
+		case strings.Contains(term, "xterm"),
+			strings.Contains(term, "color"),
+			term == "screen":
+			fmtc.DisableColors = false
+		}
+	}
+
+	if !fsutil.IsCharacterDevice("/dev/stdout") && os.Getenv("FAKETTY") == "" {
+		fmtc.DisableColors = true
+	}
+
+	if os.Getenv("NO_COLOR") != "" {
+		fmtc.DisableColors = true
+	}
+
+	if os.Getenv("CI") == "" {
+		fmtutil.SeparatorFullscreen = true
+	}
 }
 
 // configureUI configures user interface
 func configureUI() {
 	if options.GetB(OPT_NO_COLOR) {
 		fmtc.DisableColors = true
-	}
-
-	if os.Getenv("CI") == "" {
-		fmtutil.SeparatorFullscreen = true
 	}
 }
 
@@ -426,32 +450,15 @@ func (i *Index) Stats() (int, int) {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// showUsage prints usage info
-func showUsage() {
-	genUsage().Render()
-}
-
-// showAbout prints info about version
-func showAbout(gitRev string) {
-	genAbout(gitRev).Render()
-}
-
-// showVerboseAbout prints verbose info about app
-func showVerboseAbout(gitRev string, gomod []byte) {
-	support.ShowSupportInfo(APP, VER, gitRev, gomod)
-}
-
-// genCompletion generates completion for different shells
-func genCompletion() int {
-	info := genUsage()
-
+// printCompletion prints completion for given shell
+func printCompletion() int {
 	switch options.GetS(OPT_COMPLETION) {
 	case "bash":
-		fmt.Printf(bash.Generate(info, "source-index"))
+		fmt.Printf(bash.Generate(genUsage(), "source-index"))
 	case "fish":
-		fmt.Printf(fish.Generate(info, "source-index"))
+		fmt.Printf(fish.Generate(genUsage(), "source-index"))
 	case "zsh":
-		fmt.Printf(zsh.Generate(info, optMap, "source-index"))
+		fmt.Printf(zsh.Generate(genUsage(), optMap, "source-index"))
 	default:
 		return 1
 	}
@@ -459,19 +466,17 @@ func genCompletion() int {
 	return 0
 }
 
-// genMan generates man page
-func genMan() int {
+// printMan prints man page
+func printMan() {
 	fmt.Println(
 		man.Generate(
 			genUsage(),
 			genAbout(""),
 		),
 	)
-
-	return 0
 }
 
-// genUsage
+// genUsage generates usage info
 func genUsage() *usage.Info {
 	info := usage.NewInfo("", "dir")
 
@@ -486,7 +491,7 @@ func genUsage() *usage.Info {
 
 // genAbout generates info about version
 func genAbout(gitRev string) *usage.About {
-	return &usage.About{
+	about := &usage.About{
 		App:           APP,
 		Version:       VER,
 		Desc:          DESC,
@@ -495,4 +500,10 @@ func genAbout(gitRev string) *usage.About {
 		License:       "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
 		UpdateChecker: usage.UpdateChecker{"essentialkaos/source-index", update.GitHubChecker},
 	}
+
+	if gitRev != "" {
+		about.Build = "git:" + gitRev
+	}
+
+	return about
 }
