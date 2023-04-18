@@ -370,7 +370,7 @@ func releaseMapToSlice(releases map[string]*Release) []*Release {
 	return result
 }
 
-// export renders template with inforamtion from index and saves it as a file
+// export renders template with information from index and saves it as a file
 func export(index *Index) error {
 	tempData, err := getTemplateData()
 
@@ -429,7 +429,7 @@ func printWarn(f string, a ...interface{}) {
 	fmtc.Fprintf(os.Stderr, "{y}"+f+"{!}\n", a...)
 }
 
-// printErrorAndExit prints error mesage and exit with exit code 1
+// printErrorAndExit prints error message and exit with exit code 1
 func printErrorAndExit(f string, a ...interface{}) {
 	printError(f, a...)
 	os.Exit(1)
