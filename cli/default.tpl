@@ -62,6 +62,6 @@
         </section>
       {{ end }}
     </div>
-    <p class="footer">Genereated with ❤ by <a href="https://github.com/essentialkaos/source-index">SourceIndex</a></p>
+    <p class="footer">Generated with ❤ by <a href="https://github.com/essentialkaos/source-index">SourceIndex</a></p>
   </body>
 </html>
